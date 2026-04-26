@@ -1,0 +1,231 @@
+INFO | Starting up — connecting to Supabase and training model...
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 16 synthetic ratings from 16 interactions.
+INFO | Model retrained successfully.
+INFO | Starting up — connecting to Supabase and training model...
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 16 synthetic ratings from 16 interactions.
+INFO | Model retrained successfully.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?select=recommended%2Cscore%2Csources&user_id=eq.00000000-0000-0000-0000-000000000001&item_id=eq.00000000-0000-0000-0001-000000000001&order=score.desc "HTTP/2 200 OK"
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000001&item_id=eq.00000000-0000-0000-0001-000000000001 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22recommended%22%2C%22sources%22%2C%22item_id%22%2C%22user_id%22%2C%22score%22 "HTTP/2 201 Created"
+INFO | Cached 3 recommendations for user=00000000-0000-0000-0000-000000000001, item=00000000-0000-0000-0001-000000000001.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?select=recommended%2Cscore%2Csources&user_id=eq.00000000-0000-0000-0000-000000000003&item_id=eq.00000000-0000-0000-0001-000000000002&order=score.desc "HTTP/2 200 OK"
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000003&item_id=eq.00000000-0000-0000-0001-000000000002 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22recommended%22%2C%22sources%22%2C%22item_id%22%2C%22user_id%22%2C%22score%22 "HTTP/2 201 Created"
+INFO | Cached 3 recommendations for user=00000000-0000-0000-0000-000000000003, item=00000000-0000-0000-0001-000000000002.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 30 synthetic ratings from 32 interactions.
+INFO | Model retrained successfully.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 30 synthetic ratings from 32 interactions.
+INFO | Model retrained successfully.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?select=recommended%2Cscore%2Csources&user_id=eq.00000000-0000-0000-0000-000000000001&item_id=eq.00000000-0000-0000-0001-000000000001&order=score.desc "HTTP/2 200 OK"
+INFO | Shutting down.
+INFO | Starting up — connecting to Supabase and training model...
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 30 synthetic ratings from 32 interactions.
+INFO | Model retrained successfully.
+INFO | Shutting down.
+INFO | Starting up — connecting to Supabase and training model...
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 30 synthetic ratings from 32 interactions.
+INFO | Model retrained successfully.
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000001&item_id=eq.00000000-0000-0000-0001-000000000001 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22score%22%2C%22item_id%22%2C%22sources%22%2C%22recommended%22%2C%22user_id%22 "HTTP/2 201 Created"
+INFO | Cached 3 recommendations for user=00000000-0000-0000-0000-000000000001, item=00000000-0000-0000-0001-000000000001.
+INFO | Shutting down.
+INFO | Starting up — connecting to Supabase and training model...
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 30 synthetic ratings from 32 interactions.
+INFO | Model retrained successfully.
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000001&item_id=eq.00000000-0000-0000-0001-000000000001 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22item_id%22%2C%22recommended%22%2C%22user_id%22%2C%22score%22%2C%22sources%22 "HTTP/2 201 Created"
+INFO | Cached 3 recommendations for user=00000000-0000-0000-0000-000000000001, item=00000000-0000-0000-0001-000000000001.
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000001&item_id=eq.00000000-0000-0000-0001-000000000001 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22item_id%22%2C%22recommended%22%2C%22user_id%22%2C%22score%22%2C%22sources%22 "HTTP/2 201 Created"
+INFO | Cached 3 recommendations for user=00000000-0000-0000-0000-000000000001, item=00000000-0000-0000-0001-000000000001.
+INFO | Cold-start for user_id=00000000-0000-0000-0000-000000000002 — using popularity fallback.
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000002&item_id=eq.00000000-0000-0000-0001-000000000004 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22item_id%22%2C%22recommended%22%2C%22user_id%22%2C%22score%22%2C%22sources%22 "HTTP/2 201 Created"
+INFO | Cached 3 recommendations for user=00000000-0000-0000-0000-000000000002, item=00000000-0000-0000-0001-000000000004.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 29 synthetic ratings from 31 interactions.
+INFO | Model retrained successfully.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 29 synthetic ratings from 31 interactions.
+INFO | Model retrained successfully.
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000001&item_id=eq.00000000-0000-0000-0001-000000000001 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22item_id%22%2C%22recommended%22%2C%22user_id%22%2C%22score%22%2C%22sources%22 "HTTP/2 201 Created"
+INFO | Cached 3 recommendations for user=00000000-0000-0000-0000-000000000001, item=00000000-0000-0000-0001-000000000001.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 28 synthetic ratings from 30 interactions.
+INFO | Model retrained successfully.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 28 synthetic ratings from 30 interactions.
+INFO | Model retrained successfully.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 28 synthetic ratings from 30 interactions.
+INFO | Model retrained successfully.
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000001&item_id=eq.00000000-0000-0000-0001-000000000001 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22item_id%22%2C%22recommended%22%2C%22user_id%22%2C%22score%22%2C%22sources%22 "HTTP/2 201 Created"
+INFO | Cached 3 recommendations for user=00000000-0000-0000-0000-000000000001, item=00000000-0000-0000-0001-000000000001.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 28 synthetic ratings from 30 interactions.
+INFO | Model retrained successfully.
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000001&item_id=eq.00000000-0000-0000-0001-000000000001 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22item_id%22%2C%22recommended%22%2C%22user_id%22%2C%22score%22%2C%22sources%22 "HTTP/2 201 Created"
+INFO | Cached 3 recommendations for user=00000000-0000-0000-0000-000000000001, item=00000000-0000-0000-0001-000000000001.
+INFO | Shutting down.
+INFO | Starting up — connecting to Supabase and training model...
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 28 synthetic ratings from 30 interactions.
+INFO | Model retrained successfully.
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000001&item_id=eq.00000000-0000-0000-0001-000000000001 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22recommended%22%2C%22user_id%22%2C%22score%22%2C%22item_id%22%2C%22sources%22 "HTTP/2 201 Created"
+INFO | Cached 3 recommendations for user=00000000-0000-0000-0000-000000000001, item=00000000-0000-0000-0001-000000000001.
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000001&item_id=eq.00000000-0000-0000-0001-000000000001 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22recommended%22%2C%22user_id%22%2C%22score%22%2C%22item_id%22%2C%22sources%22 "HTTP/2 201 Created"
+INFO | Cached 3 recommendations for user=00000000-0000-0000-0000-000000000001, item=00000000-0000-0000-0001-000000000001.
+INFO | Shutting down.
+INFO | Starting up — connecting to Supabase and training model...
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 28 synthetic ratings from 30 interactions.
+INFO | Model retrained successfully.
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000001&item_id=eq.00000000-0000-0000-0001-000000000001 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22user_id%22%2C%22item_id%22%2C%22recommended%22%2C%22score%22%2C%22sources%22 "HTTP/2 201 Created"
+INFO | Cached 3 recommendations for user=00000000-0000-0000-0000-000000000001, item=00000000-0000-0000-0001-000000000001.
+INFO | Shutting down.
+INFO | Starting up — connecting to Supabase and training model...
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 28 synthetic ratings from 30 interactions.
+INFO | Model retrained successfully.
+INFO | Shutting down.
+INFO | Starting up — connecting to Supabase and training model...
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 28 synthetic ratings from 30 interactions.
+INFO | Model retrained successfully.
+INFO | Shutting down.
+INFO | Starting up — connecting to Supabase and training model...
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 28 synthetic ratings from 30 interactions.
+INFO | Model retrained successfully.
+INFO | Shutting down.
+INFO | Starting up — connecting to Supabase and training model...
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 28 synthetic ratings from 30 interactions.
+INFO | Model retrained successfully.
+INFO | Shutting down.
+INFO | Starting up — connecting to Supabase and training model...
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 28 synthetic ratings from 30 interactions.
+INFO | Model retrained successfully.
+INFO | Shutting down.
+INFO | Starting up — connecting to Supabase and training model...
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 28 synthetic ratings from 30 interactions.
+INFO | Model retrained successfully.
+INFO | Shutting down.
+INFO | Starting up — connecting to Supabase and training model...
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 28 synthetic ratings from 30 interactions.
+INFO | Model retrained successfully.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 28 synthetic ratings from 30 interactions.
+INFO | Model retrained successfully.
+INFO | Shutting down.
+INFO | Starting up — connecting to Supabase and training model...
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory "HTTP/2 200 OK"
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/product_tags?select=product_id%2Ctag "HTTP/2 200 OK"
+INFO | Fetched 8 products from Supabase.
+INFO | HTTP Request: GET https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+INFO | Derived 28 synthetic ratings from 30 interactions.
+INFO | Model retrained successfully.
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000001&item_id=eq.00000000-0000-0000-0001-000000000001 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22item_id%22%2C%22recommended%22%2C%22score%22%2C%22user_id%22%2C%22sources%22 "HTTP/2 201 Created"
+INFO | Cached 3 recommendations for user=00000000-0000-0000-0000-000000000001 viewing item=00000000-0000-0000-0001-000000000001.
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000002&item_id=eq.00000000-0000-0000-0001-000000000004 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22item_id%22%2C%22recommended%22%2C%22score%22%2C%22user_id%22%2C%22sources%22 "HTTP/2 201 Created"
+INFO | Cached 3 recommendations for user=00000000-0000-0000-0000-000000000002 viewing item=00000000-0000-0000-0001-000000000004.
+WARNING | Collaborative: unknown user_id=00000000-0000-0000-0000-000000000099 — cold-start triggered.
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000099&item_id=eq.00000000-0000-0000-0001-000000000001 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22item_id%22%2C%22recommended%22%2C%22score%22%2C%22user_id%22%2C%22sources%22 "HTTP/2 409 Conflict"
+WARNING | Collaborative: unknown user_id=00000000-0000-0000-0000-000000000099 — cold-start triggered.
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000099&item_id=eq.00000000-0000-0000-0001-000000000001 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22item_id%22%2C%22recommended%22%2C%22score%22%2C%22user_id%22%2C%22sources%22 "HTTP/2 409 Conflict"
+WARNING | Collaborative: unknown user_id=00000000-0000-0000-0000-000000000099 — cold-start triggered.
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000099&item_id=eq.00000000-0000-0000-0001-000000000001 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22item_id%22%2C%22recommended%22%2C%22score%22%2C%22user_id%22%2C%22sources%22 "HTTP/2 409 Conflict"
+WARNING | Content: unknown item_id=00000000-0000-0000-0001-000000000099 — cold-start triggered.
+INFO | HTTP Request: DELETE https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?user_id=eq.00000000-0000-0000-0000-000000000001&item_id=eq.00000000-0000-0000-0001-000000000099 "HTTP/2 200 OK"
+INFO | HTTP Request: POST https://vrwipwxppaiijaezpuxe.supabase.co/rest/v1/recommendations?columns=%22item_id%22%2C%22recommended%22%2C%22score%22%2C%22user_id%22%2C%22sources%22 "HTTP/2 409 Conflict"
+INFO | Shutting down.
