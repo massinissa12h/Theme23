@@ -22,7 +22,6 @@ import recommender as rec
 
 logger = logging.getLogger(__name__)
 
-# ── Settings ──────────────────────────────────────────────────────────────────
 
 class Settings:
     def __init__(self):
@@ -40,14 +39,12 @@ class Settings:
 
 settings = Settings()
 
-# ── Logging ───────────────────────────────────────────────────────────────────
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
 )
 
-# ── Rate limiter ──────────────────────────────────────────────────────────────
 
 class SlidingWindowRateLimiter:
     def __init__(self, max_requests: int, window_seconds: int):
@@ -74,14 +71,12 @@ rate_limiter = SlidingWindowRateLimiter(
     settings.rate_limit_window_seconds,
 )
 
-# ── Auth ──────────────────────────────────────────────────────────────────────
 
 async def verify_api_key(x_api_key: Annotated[str, Header(..., alias="X-API-Key")]):
     if x_api_key != settings.api_key:
         raise HTTPException(status_code=403, detail="Invalid API key")
     return x_api_key
 
-# ── Global state ──────────────────────────────────────────────────────────────
 
 _state: dict = {
     "hybrid":       None,
@@ -142,7 +137,6 @@ async def _retrain() -> None:
             logger.error("Retrain failed: %s", exc, exc_info=True)
 
 
-# ── Lifespan ──────────────────────────────────────────────────────────────────
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -162,7 +156,6 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# ── Middleware ───────────────────────────────────────────────────────────────
 
 @app.middleware("http")
 async def production_middleware(request: Request, call_next):
@@ -196,12 +189,11 @@ async def generic_exception_handler(request: Request, exc: Exception):
         content={"detail": "Internal server error"},
     )
 
-# ── Schemas ───────────────────────────────────────────────────────────────────
 
 class InteractionIn(BaseModel):
     user_id:    str
     product_id: str
-    action:     str   # "view" | "add_to_cart" | "purchase"
+    action:     str
 
 
 class RecommendationOut(BaseModel):
@@ -216,7 +208,7 @@ class HomepageOut(BaseModel):
     name:         str
     score:        float
     sources:      dict
-    personalised: bool  # True = based on user history, False = popularity fallback
+    personalised: bool
 
 
 class HealthOut(BaseModel):
@@ -226,7 +218,6 @@ class HealthOut(BaseModel):
     uptime_hint:  str
 
 
-# ── Endpoints ─────────────────────────────────────────────────────────────────
 
 @app.get("/health", response_model=HealthOut)
 def health():
@@ -261,7 +252,6 @@ async def homepage(
     if hybrid is None:
         raise HTTPException(status_code=503, detail="Model not ready yet.")
 
-    # No user_id → pure popularity
     if user_id is None:
         recs = hybrid.popularity.recommend(n=n)
         return [
@@ -275,11 +265,9 @@ async def homepage(
             for r in recs
         ]
 
-    # Known user → collaborative picks (no item context)
     collab_recs = hybrid.collaborative.recommend(user_id=user_id, n=n)
 
     if collab_recs:
-        # Normalise raw collaborative scores to [0, 1]
         max_s = max(r.score for r in collab_recs)
         min_s = min(r.score for r in collab_recs)
         for r in collab_recs:
@@ -287,10 +275,8 @@ async def homepage(
             r.score = normalised
             r.sources = {"collaborative": normalised}
 
-        # Filter out zero-score results
         collab_recs = [r for r in collab_recs if r.score > 0]
 
-        # If we don't have enough results, fill remaining slots with popular items
         if len(collab_recs) < n:
             already_shown = [r.item_id for r in collab_recs]
             filler = hybrid.popularity.recommend(
@@ -310,7 +296,6 @@ async def homepage(
             for r in collab_recs
         ]
 
-    # Unknown or new user → pure popularity
     logger.info("Homepage: unknown or new user_id=%s → popularity fallback.", user_id)
     recs = hybrid.popularity.recommend(n=n)
     return [
@@ -319,7 +304,7 @@ async def homepage(
             name=r.name,
             score=r.score,
             sources=r.sources,
-            personalised=True,  # ✅ CORRIGÉ : marqué comme personnalisé si user_id est connu
+            personalised=True,
         )
         for r in recs
     ]
@@ -347,14 +332,12 @@ async def recommend(
     if hybrid is None:
         raise HTTPException(status_code=503, detail="Model not ready yet.")
 
-    # 1. Cache-first (skip if refresh=true)
     if not refresh:
         cached = await asyncio.to_thread(
             db.fetch_cached_recommendations, client, user_id, item_id
         )
         if cached:
             logger.info("Cache hit for user=%s item=%s", user_id, item_id)
-            # ✅ CORRIGÉ : normalise les scores avant de les retourner
             results = [
                 RecommendationOut(
                     item_id=r["recommended"],
@@ -364,7 +347,6 @@ async def recommend(
                 )
                 for r in cached[:n]
             ]
-            # Normalise les scores du cache
             if len(results) > 1:
                 max_s = max(r.score for r in results)
                 min_s = min(r.score for r in results)
@@ -372,10 +354,8 @@ async def recommend(
                     r.score = (r.score - min_s) / (max_s - min_s) if max_s > min_s else 1.0
             return results
 
-    # 2. Run the hybrid engine
     results = hybrid.recommend(user_id=user_id, item_id=item_id, n=n)
 
-    # 3. Save to cache asynchronously (before normalization)
     await asyncio.to_thread(
         db.upsert_recommendations,
         client,
@@ -384,14 +364,12 @@ async def recommend(
         [{"recommended": r.item_id, "score": r.score, "sources": r.sources} for r in results],
     )
 
-    # 4. Normalize scores before returning (to ensure consistency)
     if len(results) > 1:
         max_s = max(r.score for r in results)
         min_s = min(r.score for r in results)
         for r in results:
             r.score = (r.score - min_s) / (max_s - min_s) if max_s > min_s else 1.0
 
-    # 5. Return results
     return [
         RecommendationOut(item_id=r.item_id, name=r.name, score=r.score, sources=r.sources)
         for r in results
@@ -436,7 +414,6 @@ async def add_interaction(
                    f"Valid: {list(db.INTERACTION_WEIGHTS.keys())}",
         )
 
-    # Insert interaction into Supabase
     try:
         await asyncio.to_thread(
             _insert_interaction_sync,
@@ -448,7 +425,6 @@ async def add_interaction(
     except Exception as exc:
         raise HTTPException(status_code=502, detail=f"Database insert failed: {str(exc)}")
 
-    # Schedule retrain in background (debounced — skipped if within cooldown)
     background_tasks.add_task(_retrain)
 
     return {"detail": "Interaction recorded. Model update scheduled."}

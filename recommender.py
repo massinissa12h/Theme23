@@ -22,7 +22,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import MinMaxScaler
 
 
-# ── Logging ───────────────────────────────────────────────────────────────────
 
 class ColouredFormatter(logging.Formatter):
     COLOURS = {
@@ -35,7 +34,7 @@ class ColouredFormatter(logging.Formatter):
     RESET = "\033[0m"
 
     def format(self, record: logging.LogRecord) -> str:
-        record = logging.makeLogRecord(record.__dict__)  # never mutate shared LogRecord
+        record = logging.makeLogRecord(record.__dict__)
         colour = self.COLOURS.get(record.levelno, self.RESET)
         record.levelname = f"{colour}{record.levelname}{self.RESET}"
         return super().format(record)
@@ -49,23 +48,16 @@ logging.basicConfig(level=logging.INFO, handlers=[console_handler, file_handler]
 logger = logging.getLogger(__name__)
 
 
-# ── Configuration ─────────────────────────────────────────────────────────────
 
 @dataclass
 class RecommenderConfig:
-    # How many similar users to consider in collaborative filtering
     top_k_users: int = 2
 
-    # Users with fewer interactions than this are ignored (too noisy)
     min_ratings_per_user: int = 2
 
-    # How much each engine contributes to the final score (must sum to 1.0)
-    # Higher content = more "similar products"
-    # Higher collaborative = more "users like you liked"
     weight_content: float = 0.9
     weight_collaborative: float = 0.1
 
-    # Default number of recommendations to return
     default_n: int = 3
 
     def __post_init__(self):
@@ -79,7 +71,6 @@ class RecommenderConfig:
             raise ValueError("default_n must be at least 1")
 
 
-# ── Validation ────────────────────────────────────────────────────────────────
 
 def validate_products(products: list[dict]) -> None:
     """Make sure every product has required fields and no duplicate IDs."""
@@ -107,7 +98,6 @@ def validate_ratings(ratings: pd.DataFrame) -> None:
         raise ValueError("Rating column must be numeric.")
 
 
-# ── UUID ↔ int mapping ────────────────────────────────────────────────────────
 
 class IndexMapper:
     """
@@ -136,7 +126,6 @@ class IndexMapper:
         return len(self._to_int)
 
 
-# ── Output type ───────────────────────────────────────────────────────────────
 
 @dataclass
 class Recommendation:
@@ -149,9 +138,9 @@ class Recommendation:
         {"content": 0.82, "collaborative": 0.31}  → both engines combined
         {"popularity": 0.75}                      → cold-start fallback
     """
-    item_id: str    # UUID string from Supabase
+    item_id: str
     name:    str
-    score:   float  # normalised in [0, 1] after hybrid combines engines
+    score:   float
     sources: dict = field(default_factory=dict)
 
     def __repr__(self):
@@ -159,7 +148,6 @@ class Recommendation:
         return f"Recommendation(id={self.item_id}, name={self.name!r}, score={self.score:.3f}, [{src}])"
 
 
-# ── Popularity fallback ───────────────────────────────────────────────────────
 
 class PopularityRecommender:
     """
@@ -177,7 +165,6 @@ class PopularityRecommender:
         self.products = products.set_index("id")
 
         if ratings.empty:
-            # No interactions yet — give all products equal score
             self.popularity = pd.DataFrame(
                 {"score": [1.0] * len(products)},
                 index=products["id"],
@@ -211,7 +198,6 @@ class PopularityRecommender:
         return results
 
 
-# ── Content engine ────────────────────────────────────────────────────────────
 
 class ContentRecommender:
     """
@@ -227,24 +213,19 @@ class ContentRecommender:
     def __init__(self, products: list[dict]):
         self.df = pd.DataFrame(products).set_index("id")
 
-        # rich_text built in database.py:
-        # name + description + category + tags merged into one string
         self.vectorizer  = TfidfVectorizer(stop_words="english", ngram_range=(1, 2))
         self.tfidf_matrix = self.vectorizer.fit_transform(self.df["rich_text"])
 
-        # Integer index lookup for fast row access
         self.item_to_idx = {uid: i for i, uid in enumerate(self.df.index)}
 
     def recommend(self, item_id: str, n: int = 3) -> list[Recommendation]:
         idx = self.item_to_idx.get(item_id)
         if idx is None:
-            # Item not in training data → cold-start, hybrid will use popularity
             logger.warning("Content: unknown item_id=%s — cold-start triggered.", item_id)
             return []
 
-        # Compute similarity between this item and all others
         sim_scores = cosine_similarity(self.tfidf_matrix[idx], self.tfidf_matrix).flatten()
-        sim_scores[idx] = 0.0  # exclude self
+        sim_scores[idx] = 0.0
 
         top_indices = sim_scores.argsort()[::-1]
         top_indices = top_indices[top_indices != idx][:n]
@@ -260,7 +241,6 @@ class ContentRecommender:
         ]
 
 
-# ── Collaborative base ────────────────────────────────────────────────────────
 
 class _BaseCollaborativeRecommender:
     """
@@ -275,7 +255,6 @@ class _BaseCollaborativeRecommender:
         raise NotImplementedError
 
 
-# ── Collaborative engine ──────────────────────────────────────────────────────
 
 class CollaborativeRecommender(_BaseCollaborativeRecommender):
     """
@@ -300,7 +279,6 @@ class CollaborativeRecommender(_BaseCollaborativeRecommender):
         self.products    = products.set_index("id")
         self.top_k_users = config.top_k_users
 
-        # Map UUID strings to integers for matrix operations
         self.user_mapper = IndexMapper(ratings["user_id"].unique().tolist())
         self.item_mapper = IndexMapper(ratings["item_id"].unique().tolist())
 
@@ -308,14 +286,11 @@ class CollaborativeRecommender(_BaseCollaborativeRecommender):
         r["user_idx"] = r["user_id"].map(self.user_mapper.to_int)
         r["item_idx"] = r["item_id"].map(self.item_mapper.to_int)
 
-        # Rows = users, Columns = products, Values = synthetic ratings
-        # Missing = 0 (no interaction)
         full_matrix = (
             r.pivot_table(index="user_idx", columns="item_idx", values="rating")
             .fillna(0)
         )
 
-        # Remove users with too few interactions (not enough signal)
         valid_users = full_matrix[
             full_matrix.gt(0).sum(axis=1) >= config.min_ratings_per_user
         ].index
@@ -327,8 +302,6 @@ class CollaborativeRecommender(_BaseCollaborativeRecommender):
             )
         self.matrix = full_matrix.loc[valid_users]
 
-        # Mean-center per user — removes bias from generous/strict raters
-        # Example: alice rates everything 5 → her 5s mean less than average
         user_means      = self.matrix.replace(0, np.nan).mean(axis=1)
         matrix_centered = self.matrix.subtract(user_means, axis=0).fillna(0)
 
@@ -343,11 +316,9 @@ class CollaborativeRecommender(_BaseCollaborativeRecommender):
         user_idx = self.user_mapper.to_int(user_id)
 
         if user_idx is None or user_idx not in self.user_sim.index:
-            # User not in training data → cold-start, hybrid will use popularity
             logger.warning("Collaborative: unknown user_id=%s — cold-start triggered.", user_id)
             return []
 
-        # Find top K most similar users (neighbours)
         neighbours = (
             self.user_sim[user_idx]
             .drop(index=user_idx, errors="ignore")
@@ -355,7 +326,6 @@ class CollaborativeRecommender(_BaseCollaborativeRecommender):
             .head(self.top_k_users)
         )
 
-        # Predict ratings: weighted average of neighbour ratings
         weighted_sum = pd.Series(0.0, index=self.matrix.columns)
         sim_sum      = pd.Series(0.0, index=self.matrix.columns)
         for neighbour_idx, sim_score in neighbours.items():
@@ -364,13 +334,10 @@ class CollaborativeRecommender(_BaseCollaborativeRecommender):
 
         predicted = (weighted_sum / sim_sum.replace(0, np.nan)).dropna()
 
-        # Remove products the user already interacted with
         rated_row     = self.matrix.loc[user_idx]
         already_rated = rated_row[rated_row > 0].index
         predicted     = predicted.drop(index=already_rated, errors="ignore")
 
-        # Sort and return top N — raw scores, no normalisation
-        # Normalisation happens upstream (hybrid engine or /homepage endpoint)
         predicted = predicted.sort_values(ascending=False).head(n)
 
         results = []
@@ -388,7 +355,6 @@ class CollaborativeRecommender(_BaseCollaborativeRecommender):
         return results
 
 
-# ── Null collaborative ────────────────────────────────────────────────────────
 
 class _NullCollaborativeRecommender(_BaseCollaborativeRecommender):
     """
@@ -400,7 +366,6 @@ class _NullCollaborativeRecommender(_BaseCollaborativeRecommender):
         return []
 
 
-# ── Hybrid engine ─────────────────────────────────────────────────────────────
 
 class HybridRecommender:
     """
@@ -445,7 +410,6 @@ class HybridRecommender:
             logger.info("Cold-start: unknown item_id=%s → using popularity.", item_id)
             content_recs = self.popularity.recommend(n=n * 2)
 
-        # Build score map: {item_uuid: {"content": score, "collaborative": score}}
         score_map: dict[str, dict] = {}
 
         for rec in collab_recs:
@@ -458,7 +422,6 @@ class HybridRecommender:
             if weighted > 0:
                 score_map.setdefault(rec.item_id, {})["content"] = weighted
 
-        # Build combined list
         combined: list[Recommendation] = []
         for iid, srcs in score_map.items():
             combined.append(Recommendation(
@@ -468,7 +431,6 @@ class HybridRecommender:
                 sources=srcs,
             ))
 
-        # Guard: nothing produced → full popularity fallback
         if not combined:
             logger.warning(
                 "No recommendations for user=%s, item=%s → full popularity fallback.",
@@ -476,8 +438,6 @@ class HybridRecommender:
             )
             return self.popularity.recommend(n=n)
 
-        # Normalise ALL combined scores to [0, 1] together
-        # This ensures content and collaborative are on the same scale
         if len(combined) > 1:
             max_s = max(r.score for r in combined)
             min_s = min(r.score for r in combined)
@@ -486,7 +446,6 @@ class HybridRecommender:
 
         combined.sort(key=lambda r: r.score, reverse=True)
 
-        # Remove the item the user is currently viewing
         if not cold_start_user:
             combined = [r for r in combined if r.item_id != item_id]
 
@@ -500,7 +459,6 @@ class HybridRecommender:
             return item_id
 
 
-# ── Evaluation helpers ────────────────────────────────────────────────────────
 
 def precision_at_k(recommended: list[str], relevant: list[str], k: int) -> float:
     """Fraction of top-K recommendations that are actually relevant."""
@@ -514,7 +472,6 @@ def recall_at_k(recommended: list[str], relevant: list[str], k: int) -> float:
     return len(set(top_k) & set(relevant)) / len(relevant) if relevant else 0.0
 
 
-# ── Factory ───────────────────────────────────────────────────────────────────
 
 def build_engines(
     products: list[dict],

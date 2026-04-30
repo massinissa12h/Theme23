@@ -15,30 +15,26 @@ BASE_URL = "http://127.0.0.1:8000"
 API_KEY  = "39816561"
 HEADERS  = {"X-API-Key": API_KEY}
 
-# ── ID reference ──────────────────────────────────────────────────────────────
-# USERS
-U1 = "00000000-0000-0000-0000-000000000001"  # alice  → footwear lover
-U2 = "00000000-0000-0000-0000-000000000002"  # bob    → electronics lover
-U3 = "00000000-0000-0000-0000-000000000003"  # carol  → footwear + fitness
-U4 = "00000000-0000-0000-0000-000000000004"  # dan    → gaming electronics
-U5 = "00000000-0000-0000-0000-000000000005"  # eve    → footwear lover
-U6 = "00000000-0000-0000-0000-000000000006"  # frank  → electronics lover
-U7 = "00000000-0000-0000-0000-000000000007"  # grace  → footwear + fitness
-U8 = "00000000-0000-0000-0000-000000000008"  # henry  → gaming electronics
-U99 = "00000000-0000-0000-0000-000000000099" # unknown user
+U1 = "00000000-0000-0000-0000-000000000001"
+U2 = "00000000-0000-0000-0000-000000000002"
+U3 = "00000000-0000-0000-0000-000000000003"
+U4 = "00000000-0000-0000-0000-000000000004"
+U5 = "00000000-0000-0000-0000-000000000005"
+U6 = "00000000-0000-0000-0000-000000000006"
+U7 = "00000000-0000-0000-0000-000000000007"
+U8 = "00000000-0000-0000-0000-000000000008"
+U99 = "00000000-0000-0000-0000-000000000099"
 
-# PRODUCTS
-P1 = "00000000-0000-0000-0001-000000000001"  # Nike Running Shoes → Footwear
-P2 = "00000000-0000-0000-0001-000000000002"  # Adidas Sneakers → Footwear
-P3 = "00000000-0000-0000-0001-000000000003"  # Puma Training Shoes → Footwear
-P4 = "00000000-0000-0000-0001-000000000004"  # Gaming Mouse → Electronics
-P5 = "00000000-0000-0000-0001-000000000005"  # Mechanical Keyboard → Electronics
-P6 = "00000000-0000-0000-0001-000000000006"  # Monitor 27 inch → Electronics
-P7 = "00000000-0000-0000-0001-000000000007"  # Yoga Mat → Sport
-P8 = "00000000-0000-0000-0001-000000000008"  # Resistance Bands → Sport
-P99 = "00000000-0000-0000-0001-000000000099" # unknown product
+P1 = "00000000-0000-0000-0001-000000000001"
+P2 = "00000000-0000-0000-0001-000000000002"
+P3 = "00000000-0000-0000-0001-000000000003"
+P4 = "00000000-0000-0000-0001-000000000004"
+P5 = "00000000-0000-0000-0001-000000000005"
+P6 = "00000000-0000-0000-0001-000000000006"
+P7 = "00000000-0000-0000-0001-000000000007"
+P8 = "00000000-0000-0000-0001-000000000008"
+P99 = "00000000-0000-0000-0001-000000000099"
 
-# PRODUCT CATEGORIES MAP (for semantic checks)
 PRODUCT_CATEGORIES = {
     P1: "Footwear",
     P2: "Footwear",
@@ -50,17 +46,15 @@ PRODUCT_CATEGORIES = {
     P8: "Sport",
 }
 
-# USER PREFERENCES (for semantic checks)
 USER_PREFERENCES = {
-    U1: ["Footwear"],  # alice loves footwear
-    U2: ["Electronics"],  # bob loves electronics
-    U3: ["Footwear", "Sport"],  # carol loves footwear and fitness
-    U4: ["Electronics"],  # dan loves gaming electronics
-    U5: ["Footwear"],  # eve loves footwear
-    U8: ["Electronics"],  # henry loves gaming electronics
+    U1: ["Footwear"],
+    U2: ["Electronics"],
+    U3: ["Footwear", "Sport"],
+    U4: ["Electronics"],
+    U5: ["Footwear"],
+    U8: ["Electronics"],
 }
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
 
 PASS = "\033[32m  PASS\033[0m"
 FAIL = "\033[31m  FAIL\033[0m"
@@ -119,7 +113,6 @@ def post_retrain() -> int:
     return requests.post(f"{BASE_URL}/retrain", headers=HEADERS).status_code
 
 
-# ── Semantic Checks ───────────────────────────────────────────────────────────
 
 def check_semantic_relevance(user_id: str, item_id: str, recs: list, expected_category: str):
     """Check if recommendations are semantically relevant to the viewed item."""
@@ -132,7 +125,6 @@ def check_semantic_relevance(user_id: str, item_id: str, recs: list, expected_ca
     return relevant_count
 
 
-# ── Tests ─────────────────────────────────────────────────────────────────────
 
 def test_health():
     section("HEALTH CHECK")
@@ -149,11 +141,9 @@ def test_health():
 def test_auth():
     section("AUTHENTICATION")
 
-    # No key
     resp = requests.get(f"{BASE_URL}/recommend", params={"user_id": U1, "item_id": P1})
     check("No API key → 422",          resp.status_code == 422)
 
-    # Wrong key
     resp = requests.get(
         f"{BASE_URL}/recommend",
         params={"user_id": U1, "item_id": P1},
@@ -161,7 +151,6 @@ def test_auth():
     )
     check("Wrong API key → 403",       resp.status_code == 403)
 
-    # Health has no auth
     resp = requests.get(f"{BASE_URL}/health")
     check("Health needs no API key",   resp.status_code == 200)
 
@@ -169,7 +158,6 @@ def test_auth():
 def test_recommend_known_users():
     section("RECOMMEND — KNOWN USERS + KNOWN ITEMS")
 
-    # Alice (footwear) viewing Nike shoes → should get footwear back
     recs = get_recommend(U1, P1, n=3, refresh=True)
     ids  = [r["item_id"] for r in recs]
     expected_cat = PRODUCT_CATEGORIES[P1]
@@ -181,7 +169,6 @@ def test_recommend_known_users():
     check("Alice/Nike → has sources dict",           all(r["sources"] for r in recs))
     check("Alice/Nike → at least 1 footwear rec",    relevant_count >= 1, f"Got {relevant_count} {expected_cat} recs")
 
-    # Bob (electronics) viewing Gaming Mouse → should get electronics back
     recs = get_recommend(U2, P4, n=3, refresh=True)
     ids  = [r["item_id"] for r in recs]
     expected_cat = PRODUCT_CATEGORIES[P4]
@@ -191,7 +178,6 @@ def test_recommend_known_users():
     check("Bob/Mouse → scores in [0, 1]",            all(0 <= r["score"] <= 1 for r in recs))
     check("Bob/Mouse → at least 1 electronics rec",  relevant_count >= 1, f"Got {relevant_count} {expected_cat} recs")
 
-    # Carol (footwear + fitness) viewing Adidas
     recs = get_recommend(U3, P2, n=3, refresh=True)
     ids  = [r["item_id"] for r in recs]
     expected_cat = PRODUCT_CATEGORIES[P2]
@@ -200,7 +186,6 @@ def test_recommend_known_users():
     check("Carol/Adidas → Adidas not in results",    P2 not in ids)
     check("Carol/Adidas → at least 1 footwear rec",  relevant_count >= 1, f"Got {relevant_count} {expected_cat} recs")
 
-    # Dan (gaming) viewing Mechanical Keyboard
     recs = get_recommend(U4, P5, n=3, refresh=True)
     ids  = [r["item_id"] for r in recs]
     expected_cat = PRODUCT_CATEGORIES[P5]
@@ -209,14 +194,12 @@ def test_recommend_known_users():
     check("Dan/Keyboard → Keyboard not in results",  P5 not in ids)
     check("Dan/Keyboard → at least 1 electronics rec", relevant_count >= 1, f"Got {relevant_count} {expected_cat} recs")
 
-    # Eve (footwear) viewing Puma
     recs = get_recommend(U5, P3, n=3, refresh=True)
     expected_cat = PRODUCT_CATEGORIES[P3]
     relevant_count = check_semantic_relevance(U5, P3, recs, expected_cat)
     check("Eve/Puma → returns 3 results",            len(recs) == 3)
     check("Eve/Puma → at least 1 footwear rec",      relevant_count >= 1, f"Got {relevant_count} {expected_cat} recs")
 
-    # Henry (gaming) viewing Monitor
     recs = get_recommend(U8, P6, n=3, refresh=True)
     expected_cat = PRODUCT_CATEGORIES[P6]
     relevant_count = check_semantic_relevance(U8, P6, recs, expected_cat)
@@ -227,7 +210,6 @@ def test_recommend_known_users():
 def test_recommend_cold_start():
     section("RECOMMEND — COLD START")
 
-    # Unknown user, known item → popularity fallback
     recs = get_recommend(U99, P1, n=3, refresh=True)
     expected_cat = PRODUCT_CATEGORIES[P1]
     relevant_count = check_semantic_relevance(U99, P1, recs, expected_cat)
@@ -236,12 +218,10 @@ def test_recommend_cold_start():
     check("Unknown user → has sources",              all(r["sources"] for r in recs))
     check("Unknown user → at least 1 footwear rec",  relevant_count >= 1, f"Got {relevant_count} {expected_cat} recs")
 
-    # Known user, unknown item → popularity fallback
     recs = get_recommend(U1, P99, n=3, refresh=True)
     check("Unknown item → returns 3 results",        len(recs) == 3)
     check("Unknown item → scores > 0",               all(r["score"] > 0 for r in recs))
 
-    # Both unknown → full popularity fallback
     recs = get_recommend(U99, P99, n=3, refresh=True)
     check("Both unknown → returns 3 results",        len(recs) == 3)
     check("Both unknown → scores > 0",               all(r["score"] > 0 for r in recs))
@@ -259,7 +239,6 @@ def test_recommend_n_parameter():
     recs = get_recommend(U1, P1, n=5, refresh=True)
     check("n=5 → returns up to 5",      len(recs) <= 5)
 
-    # Invalid n
     resp = requests.get(
         f"{BASE_URL}/recommend",
         params={"user_id": U1, "item_id": P1, "n": 0},
@@ -278,17 +257,14 @@ def test_recommend_n_parameter():
 def test_recommend_cache():
     section("RECOMMEND — CACHE")
 
-    # First call — cache miss, runs engine
     recs1 = get_recommend(U2, P4, n=3, refresh=True)
 
-    # Second call — should hit cache, same results
     recs2 = get_recommend(U2, P4, n=3, refresh=False)
     ids1  = [r["item_id"] for r in recs1]
     ids2  = [r["item_id"] for r in recs2]
     check("Cache hit → same item order",   ids1 == ids2)
     check("Cache hit → same scores",       [r["score"] for r in recs1] == [r["score"] for r in recs2])
 
-    # refresh=True bypasses cache
     recs3 = get_recommend(U2, P4, n=3, refresh=True)
     check("refresh=True → still returns 3 results", len(recs3) == 3)
 
@@ -316,33 +292,27 @@ def test_homepage_unknown_user():
 def test_homepage_known_users():
     section("HOMEPAGE — KNOWN USERS (has history)")
 
-    # Alice
     recs = get_homepage(user_id=U1, n=3)
     check("Alice → returns 3 results",               len(recs) == 3)
     check("Alice → at least 1 personalised",         any(r["personalised"] for r in recs))
     check("Alice → no duplicate items",              len(set(r["item_id"] for r in recs)) == len(recs))
     check("Alice → scores > 0",                      all(r["score"] > 0 for r in recs))
 
-    # Bob
     recs = get_homepage(user_id=U2, n=3)
     check("Bob → returns 3 results",                 len(recs) == 3)
     check("Bob → at least 1 personalised",           any(r["personalised"] for r in recs))
 
-    # Carol
     recs = get_homepage(user_id=U3, n=3)
     check("Carol → returns 3 results",               len(recs) == 3)
     check("Carol → at least 1 personalised",         any(r["personalised"] for r in recs))
 
-    # Dan
     recs = get_homepage(user_id=U4, n=3)
     check("Dan → returns 3 results",                 len(recs) == 3)
     check("Dan → at least 1 personalised",           any(r["personalised"] for r in recs))
 
-    # Grace
     recs = get_homepage(user_id=U7, n=3)
     check("Grace → returns 3 results",               len(recs) == 3)
 
-    # Henry
     recs = get_homepage(user_id=U8, n=3)
     check("Henry → returns 3 results",               len(recs) == 3)
 
@@ -363,7 +333,6 @@ def test_homepage_n_parameter():
 def test_ratings():
     section("RATINGS — RECORD INTERACTIONS")
 
-    # Valid actions
     code = post_rating(U99, P1, "view")
     check("view → 202 accepted",        code == 202)
 
@@ -373,11 +342,9 @@ def test_ratings():
     code = post_rating(U99, P3, "purchase")
     check("purchase → 202 accepted",    code == 202)
 
-    # Invalid action
     code = post_rating(U99, P1, "like")
     check("unknown action → 422",       code == 422)
 
-    # Missing fields
     resp = requests.post(
         f"{BASE_URL}/ratings",
         json={"user_id": U99},
@@ -392,7 +359,6 @@ def test_retrain():
     code = post_retrain()
     check("POST /retrain → 200",        code == 200)
 
-    # Model still ready after retrain
     resp  = requests.get(f"{BASE_URL}/health")
     check("Model ready after retrain",  resp.json().get("model_ready") is True)
 
@@ -400,7 +366,6 @@ def test_retrain():
 def test_scores_consistency():
     section("SCORES CONSISTENCY")
 
-    # Scores should always be in [0, 1]
     for label, user, item in [
         ("alice/nike",    U1, P1),
         ("bob/mouse",     U2, P4),
@@ -416,7 +381,6 @@ def test_scores_consistency():
             f"scores: {[r['score'] for r in recs]}"
         )
 
-    # Homepage scores
     for label, uid in [
         ("visitor",       None),
         ("unknown user",  U99),
@@ -449,7 +413,6 @@ def test_sources_consistency():
             )
 
 
-# ── Run all ───────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
     print(f"\n{HEAD}{'═' * 60}{END}")

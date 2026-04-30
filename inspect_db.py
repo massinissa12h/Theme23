@@ -18,7 +18,6 @@ client: Client = create_client(url, key)
 
 print("--- Aperçu des tables ---")
 
-# Remplacez 'products', 'interactions', 'recommendations' par vos vrais noms de table
 tables = ["products", "interactions", "recommendations", "product_tags"]
 
 for table_name in tables:

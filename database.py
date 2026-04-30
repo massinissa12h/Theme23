@@ -1,11 +1,4 @@
-"""
-database.py — Supabase data access layer (production-ready).
 
-Responsibilities:
-  - Fetch products with tags (single join, paginated)
-  - Fetch interactions and convert to synthetic ratings
-  - Read/write recommendations cache (atomic upsert)
-"""
 
 from __future__ import annotations
 
