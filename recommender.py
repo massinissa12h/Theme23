@@ -174,8 +174,13 @@ class PopularityRecommender:
         popularity = (
             ratings.groupby("item_id")["rating"]
             .agg(count="count", mean="mean")
-            .assign(score=lambda d: d["mean"] * np.log1p(d["count"]))
         )
+        # Reviewed products: mean_rating × log(1 + count)
+        popularity["score"] = popularity["mean"] * np.log1p(popularity["count"])
+        # Unreviewed but interacted products: give partial credit by interaction count alone
+        zero_mask = popularity["score"] == 0
+        popularity.loc[zero_mask, "score"] = 0.5 * np.log1p(popularity.loc[zero_mask, "count"])
+
         scaler = MinMaxScaler()
         popularity["score"] = scaler.fit_transform(popularity[["score"]])
         self.popularity = popularity.sort_values("score", ascending=False)

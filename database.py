@@ -14,9 +14,11 @@ load_dotenv()
 logger = logging.getLogger(__name__)
 
 INTERACTION_WEIGHTS: dict[str, float] = {
-    "view": 1.0,
-    "add_to_cart": 3.0,
-    "purchase": 5.0,
+    "seen":     1.0,   # user viewed a product page
+    "share":    1.5,   # user shared a product
+    "save":     2.0,   # user saved/wishlisted a product
+    "cart":     3.0,   # user added to cart
+    "purchase": 5.0,   # user completed a purchase
 }
 
 
