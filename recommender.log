@@ -1640,3 +1640,23 @@ postgrest.exceptions.APIError: {'message': 'insert or update on table "interacti
 2026-04-26 08:35:57,801 | ERROR | Cache upsert failed: {'message': 'insert or update on table "recommendations" violates foreign key constraint "recommendations_item_id_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (item_id)=(00000000-0000-0000-0001-000000000099) is not present in table "products".'}
 2026-04-26 08:35:57,803 | INFO | GET /recommend � 200 � 95.64ms
 2026-04-26 19:44:26,346 | INFO | Shutting down...
+2026-04-30 15:07:18,623 | INFO | Starting up...
+2026-04-30 15:07:18,956 | INFO | Starting model retrain...
+2026-04-30 15:07:20,630 | INFO | HTTP Request: GET https://ubenriftfsfwbejriomn.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory%2Cproduct_tags%28tag%29&offset=0&limit=1000 "HTTP/2 200 OK"
+2026-04-30 15:07:20,984 | INFO | HTTP Request: GET https://ubenriftfsfwbejriomn.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory%2Cproduct_tags%28tag%29&offset=1000&limit=1000 "HTTP/2 200 OK"
+2026-04-30 15:07:21,285 | INFO | HTTP Request: GET https://ubenriftfsfwbejriomn.supabase.co/rest/v1/products?select=id%2Cname%2Cdescription%2Ccategory%2Cproduct_tags%28tag%29&offset=2000&limit=1000 "HTTP/2 200 OK"
+2026-04-30 15:07:21,286 | INFO | Fetched 2000 products from Supabase.
+2026-04-30 15:07:21,673 | INFO | HTTP Request: GET https://ubenriftfsfwbejriomn.supabase.co/rest/v1/interactions?select=user_id%2Cproduct_id%2Caction "HTTP/2 200 OK"
+2026-04-30 15:07:21,702 | WARNING | No recognised interaction actions found.
+2026-04-30 15:07:24,439 | WARNING | No ratings — collaborative filtering disabled.
+2026-04-30 15:07:24,449 | INFO | Model retrained successfully.
+2026-04-30 15:07:28,770 | INFO | GET / — 404 — 0.32ms
+2026-04-30 15:07:29,111 | INFO | GET /favicon.ico — 404 — 0.35ms
+2026-04-30 15:07:33,945 | INFO | GET /docs — 200 — 0.19ms
+2026-04-30 15:07:34,490 | INFO | GET /openapi.json — 200 — 10.81ms
+2026-04-30 15:08:08,409 | INFO | Homepage: unknown or new user_id=dbff2070-a0cc-4e11-bf1f-8dba5e380dd3 → popularity fallback.
+2026-04-30 15:08:08,411 | INFO | GET /homepage — 200 — 3.53ms
+2026-04-30 15:08:08,413 | INFO | GET /homepage — 200 — 1.92ms
+2026-04-30 15:08:31,368 | INFO | GET /homepage — 200 — 1.33ms
+2026-04-30 15:08:31,381 | INFO | Homepage: unknown or new user_id=dbff2070-a0cc-4e11-bf1f-8dba5e380dd3 → popularity fallback.
+2026-04-30 15:08:31,383 | INFO | GET /homepage — 200 — 1.83ms
